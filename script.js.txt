@@ -1,0 +1,33 @@
+// Mobile menu toggle
+const toggle = document.getElementById('menuToggle');
+const menu = document.getElementById('mobileMenu');
+let open=false;
+if(toggle){
+  toggle.addEventListener('click',()=>{
+    open=!open;
+    menu.style.display = open ? 'flex' : 'none';
+    toggle.textContent = open ? '✕' : '☰';
+  });
+}
+// Smooth scroll
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{
+    const id=a.getAttribute('href');
+    if(id.length>1){
+      e.preventDefault();
+      document.querySelector(id)?.scrollIntoView({behavior:'smooth'});
+      if(menu) menu.style.display='none';
+      open=false;
+      if(toggle) toggle.textContent='☰';
+    }
+  });
+});
+// Fake form
+document.getElementById('contactForm')?.addEventListener('submit',e=>{
+  e.preventDefault();
+  const btn=e.target.querySelector('button');
+  const orig=btn.textContent;
+  btn.textContent='Sent ✓';
+  btn.disabled=true;
+  setTimeout(()=>{btn.textContent=orig;btn.disabled=false;e.target.reset(); alert('Thanks! We will reply within 24h — demo form, connect to Formspree/Resend later.')},1200);
+});
